@@ -14,8 +14,33 @@ const HeroSection = () => {
     postcode: "",
     criminalRecord: "",
     file: null,
-  });
+  });     
 
+
+ const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const res = await fetch("/api/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData), // ✅ DATA SEND HERE
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    alert("Email sent ✅");
+  } catch (err) {
+    console.error(err);
+    alert("Error sending email ❌");
+  } finally {
+    setLoading(false);
+  }
+};
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,13 +52,11 @@ const HeroSection = () => {
     }));
   };
 
-  // ✅ FIXED (only one handleSubmit)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       console.log(formData);
@@ -62,7 +85,7 @@ const HeroSection = () => {
         </div>
 
         <div className="w-full max-w-4xl bg-white p-8 rounded-xl shadow-md">
-          <form onSubmit={handleSubmit} action="">
+          <form onSubmit={handleSend} action="">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block mb-2  font-medium">First name *</label>
@@ -231,7 +254,7 @@ const HeroSection = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#4B014B] min-w-[134px] hover:bg-white cursor-pointer hover:border duration-300 text-white hover:text-[#4B014B] flex items-center py-4 px-8.5 rounded-xl mt-8 gap-2"
+              className="bg-[#4B014B] min-w-[134px] hover:bg-white cursor-pointer hover:border duration-300 text-white hover:text-[#4B014B] flex items-center py-4 px-8.5 rounded-xl mt-8 gap-2 disabled:hover:bg-[#4B014B] disabled:hover:text-white"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
