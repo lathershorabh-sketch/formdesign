@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <div className="w-full h-78 text-white bg-[url('/assests/images/navbar-bg.png')] bg-cover bg-center"></div>
+    <div className="w-full h-75.5 bg-white text-white bg-[url('/assests/images/navbar-bg.png')] bg-cover bg-center"></div>
   );
 };
 
